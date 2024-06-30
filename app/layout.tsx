@@ -1,8 +1,8 @@
 import { Box, Flex, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { Inter, Open_Sans } from "next/font/google";
-import Sidebar from "./components/Sidebar";
 import "@/app/styles/global.css";
+import Sidebar from "./components/Sidebar";
 import Appbar from "./components/Appbar";
 
 // const inter = Inter({ subsets: ["latin"] });
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <Sidebar />
             <Box width="100%">
               <Appbar />
-              <main style={{ padding: "1rem" }}>{children}</main>
+              <main style={{ padding: "2rem" }}>{children}</main>
             </Box>
           </Flex>
         </Theme>

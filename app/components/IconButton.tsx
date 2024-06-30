@@ -1,15 +1,15 @@
 import React from "react";
-import { BellIcon } from "@radix-ui/react-icons";
 import { IconButton as ButtonWithIcon } from "@radix-ui/themes";
 
 type IconButtonProps = {
   children?: React.ReactNode;
   variant?: "soft" | "ghost";
+  radius: "small" | "full";
 };
 
-function IconButton({ children, variant }: IconButtonProps) {
+function IconButton({ children, variant, radius = "full" }: IconButtonProps) {
   return (
-    <ButtonWithIcon radius="full" variant={variant}>
+    <ButtonWithIcon radius={radius} variant={variant}>
       {children}
     </ButtonWithIcon>
   );

@@ -3,12 +3,14 @@
   --primary-light: var(--indigo-8);
   --secondary: var(--gray-12);
   --secondary-light: var(--gray-9);
-  --tertiary: var(--indigo-2);
+  --tertiary: var(--indigo-6);
+  --tertiary-light: var(--indigo-4);
 }
 
 body {
   margin: 0;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 a {
@@ -18,10 +20,33 @@ a {
 
 .radix-themes {
   --default-font-family: var(--font-open-sans);
+  --cursor-button: pointer;
+  --cursor-link: pointer;
 }
 
 .active {
-  background-color: var(--primary);
+  background-color: var(--primary-light);
   color: var(--accent-contrast);
+}
+
+#slide-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40vw;
+  height: 100vh;
+  background-color: white;
+  border-left: 1px solid var(--tertiary-light);
+  padding: 3rem;
+  font-family: var(--font-open-sans);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.3s;
+}
+
+.slide-screen-open {
+  display: block !important;
+  transform: translateX(0) !important;
 }
 

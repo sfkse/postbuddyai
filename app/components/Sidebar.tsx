@@ -13,8 +13,8 @@ function Sidebar() {
         p="5"
         height="100%"
         style={{
-          backgroundColor: "var(--tertiary)",
           color: "var(--primary-light)",
+          borderRight: "1px solid var(--tertiary-light)",
         }}
       >
         <Text as="p" size="6" align="center" mt="3" weight="bold">
@@ -24,7 +24,7 @@ function Sidebar() {
           <Link
             href="/"
             style={{
-              padding: "0.7rem",
+              padding: "0.5rem",
               display: "block",
               borderRadius: "0.3rem",
               fontSize: "1.1rem",
@@ -36,7 +36,7 @@ function Sidebar() {
           <Link
             href="/campaigns"
             style={{
-              padding: "0.7rem",
+              padding: "0.5rem",
               display: "block",
               borderRadius: "0.3rem",
               fontSize: "1.1rem",
@@ -46,16 +46,40 @@ function Sidebar() {
             Campaigns
           </Link>
           <Link
-            href="/"
+            href="/queue"
             style={{
-              padding: "0.7rem",
+              padding: "0.5rem",
               display: "block",
               borderRadius: "0.3rem",
               fontSize: "1.1rem",
             }}
-            className={pathName === "/" ? "active" : ""}
+            className={pathName === "/queue" ? "active" : ""}
           >
-            Dashboard
+            Queue
+          </Link>
+          <Link
+            href="/drafts"
+            style={{
+              padding: "0.5rem",
+              display: "block",
+              borderRadius: "0.3rem",
+              fontSize: "1.1rem",
+            }}
+            className={pathName === "/drafts" ? "active" : ""}
+          >
+            Drafts
+          </Link>
+          <Link
+            href="/settings"
+            style={{
+              padding: "0.5rem",
+              display: "block",
+              borderRadius: "0.3rem",
+              fontSize: "1.1rem",
+            }}
+            className={pathName === "/settings" ? "active" : ""}
+          >
+            Settings
           </Link>
         </Box>
       </Box>
