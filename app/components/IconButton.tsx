@@ -4,7 +4,7 @@ import { IconButton as ButtonWithIcon } from "@radix-ui/themes";
 type IconButtonProps = {
   children?: React.ReactNode;
   variant?: "soft" | "ghost";
-  radius: "small" | "full";
+  radius?: "small" | "full";
 };
 
 function IconButton({ children, variant, radius = "full" }: IconButtonProps) {
