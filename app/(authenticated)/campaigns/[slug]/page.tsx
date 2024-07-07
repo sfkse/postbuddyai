@@ -2,7 +2,6 @@
 
 import AutoRenew from "@/app/components/AutoRenew";
 import Breadcrumb from "@/app/components/Breadcrumb";
-import CampaignCardContent from "@/app/(authenticated)/campaigns/CampaignCardContent";
 import CardGroup from "@/app/components/CardGroup";
 import SlideScreen from "@/app/components/SlideScreen";
 import PageHeading from "@/app/components/PageHeading";
@@ -27,7 +26,7 @@ function CampaignDetail() {
         formTitle="Create tweet"
         FormContent={<CreateTweetFields />}
         isSlideScreenOpen={isSlideScreenOpen}
-        setIsSlideScreenOpen={openSlideScreen}
+        openSlideScreen={openSlideScreen}
       />
       <Breadcrumb items={breadcrumbItems} />
       <Flex align="center" justify="between">
@@ -37,7 +36,7 @@ function CampaignDetail() {
       <CardGroup
         showCreateOption
         CardContent={<TweetCardContent />}
-        setIsSlideScreenOpen={openSlideScreen}
+        openSlideScreen={openSlideScreen}
       />
     </>
   );

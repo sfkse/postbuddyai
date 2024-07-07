@@ -14,15 +14,15 @@ import Dropdown from "@/app/components/Dropdown";
 type CardGroupProps = {
   CardContent: React.ReactNode;
   showCreateOption?: boolean;
-  setIsSlideScreenOpen?: (value: boolean) => void;
+  openSlideScreen?: (value: boolean) => void;
 };
 
 function CardGroup({
   showCreateOption = false,
   CardContent,
-  setIsSlideScreenOpen,
+  openSlideScreen,
 }: CardGroupProps) {
-  const items = [{ label: "Edit" }, { label: "Delete", color: "red" }];
+  const items = [{ label: "Edit" }, { label: "Delete", color: "red" as "red" }];
   return (
     <Grid mt="8" gap="4" columns="repeat(auto-fill,minmax(250px, 1fr)">
       <CardComponent variant="classic" asChild style={{ padding: "1.25rem" }}>
@@ -40,7 +40,7 @@ function CardGroup({
         <CardComponent
           variant="classic"
           asChild
-          onClick={() => setIsSlideScreenOpen?.(true)}
+          onClick={() => openSlideScreen?.(true)}
           style={{
             display: "flex",
             justifyContent: "center",

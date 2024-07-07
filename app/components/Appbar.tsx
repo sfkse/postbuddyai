@@ -1,10 +1,8 @@
 import { BellIcon } from "@radix-ui/react-icons";
 import { Flex } from "@radix-ui/themes";
-import React from "react";
+
 import IconButton from "./IconButton";
-import Dropdown from "./Dropdown";
-import PersonIcon from "./Icons";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 
 function Appbar() {
   const items = [{ label: "Settings" }, { label: "Logout" }];

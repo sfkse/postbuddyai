@@ -1,4 +1,3 @@
-import React from "react";
 import { Badge as BadgeComponent } from "@radix-ui/themes";
 
 type BadgeProps = {

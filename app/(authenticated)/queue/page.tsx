@@ -1,5 +1,3 @@
-"use client";
-
 import Breadcrumb from "@/app/components/Breadcrumb";
 import CardGroup from "@/app/components/CardGroup";
 import PageHeading from "@/app/components/PageHeading";

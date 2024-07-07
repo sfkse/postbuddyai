@@ -1,18 +1,15 @@
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
-import React from "react";
 
 type DropdownProps = {
   items: {
     label: string;
-    color?: string;
+    color?: "red" | "indigo";
   }[];
   Icon: React.ReactNode;
   color?: string;
 };
 
 function Dropdown({ items, Icon }: DropdownProps) {
-  console.log(items);
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>

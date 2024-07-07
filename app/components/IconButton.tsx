@@ -1,4 +1,3 @@
-import React from "react";
 import { IconButton as ButtonWithIcon } from "@radix-ui/themes";
 
 type IconButtonProps = {

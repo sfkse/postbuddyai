@@ -1,6 +1,5 @@
 import AutoRenew from "@/app/components/AutoRenew";
 import { Button, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
-import React from "react";
 
 function CreateCampaignFields() {
   return (

@@ -1,5 +1,3 @@
-"use client";
-
 import { MagicWandIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import {
   Avatar,
@@ -13,19 +11,11 @@ import {
   Tooltip,
 } from "@radix-ui/themes";
 import ScheduleTweetModal from "./ScheduleTweetModal";
-import useOpenModal from "@/app/hooks/useOpenModal";
-import { createPortal } from "react-dom";
 import Modal from "@/app/components/Modal";
 
 function CreateTweetFields() {
-  const { isOpen, closeModal, openModal } = useOpenModal();
   return (
     <>
-      {/* {createPortal(
-        <ScheduleTweetModal isOpen={isOpen} closeModal={closeModal} />,
-        document.body
-      )} */}
-
       <Text as="p" size="2" style={{ color: "var(--secondary-light)" }}>
         Tweets created with AI will be around the topics: React, Next.js, and
         Radix UI.
@@ -64,7 +54,7 @@ function CreateTweetFields() {
               title="Schedule tweet"
               description="Tweets created with AI will be around the topics: React, Next.js, and Radix UI."
             >
-              <ScheduleTweetModal closeModal={closeModal} />
+              <ScheduleTweetModal />
             </Modal.Content>
           </Modal>
         </Flex>

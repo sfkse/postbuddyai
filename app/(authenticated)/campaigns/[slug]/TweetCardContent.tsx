@@ -8,7 +8,6 @@ import {
   Text,
   TextArea,
 } from "@radix-ui/themes";
-import React from "react";
 
 function TweetCardContent() {
   return (

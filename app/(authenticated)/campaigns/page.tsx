@@ -20,13 +20,13 @@ function Campaigns() {
         formTitle="Create campaign"
         FormContent={<CreateCampaignFields />}
         isSlideScreenOpen={isSlideScreenOpen}
-        setIsSlideScreenOpen={openSlideScreen}
+        openSlideScreen={openSlideScreen}
       />
       <Tabs items={items}>
         <Tabs.Item items={items} />
         <Tabs.Content items={items}>
           <CardGroup
-            setIsSlideScreenOpen={openSlideScreen}
+            openSlideScreen={openSlideScreen}
             showCreateOption
             CardContent={<CampaignCardContent />}
           />
