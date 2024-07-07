@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { DotsVerticalIcon, PlusIcon } from "@radix-ui/react-icons";
 import {
   Card as CardComponent,
   Heading,
@@ -12,9 +12,9 @@ import {
 import Dropdown from "@/app/components/Dropdown";
 
 type CardGroupProps = {
-  showCreateOption?: boolean;
   CardContent: React.ReactNode;
-  setIsSlideScreenOpen: (value: boolean) => void;
+  showCreateOption?: boolean;
+  setIsSlideScreenOpen?: (value: boolean) => void;
 };
 
 function CardGroup({
@@ -22,6 +22,7 @@ function CardGroup({
   CardContent,
   setIsSlideScreenOpen,
 }: CardGroupProps) {
+  const items = [{ label: "Edit" }, { label: "Delete", color: "red" }];
   return (
     <Grid mt="8" gap="4" columns="repeat(auto-fill,minmax(250px, 1fr)">
       <CardComponent variant="classic" asChild style={{ padding: "1.25rem" }}>
@@ -30,7 +31,7 @@ function CardGroup({
             <Heading size="4" weight="bold" mb="2">
               Development
             </Heading>
-            <Dropdown />
+            <Dropdown items={items} Icon={<DotsVerticalIcon />} />
           </Flex>
           {CardContent}
         </Link>
@@ -39,7 +40,7 @@ function CardGroup({
         <CardComponent
           variant="classic"
           asChild
-          onClick={() => setIsSlideScreenOpen(true)}
+          onClick={() => setIsSlideScreenOpen?.(true)}
           style={{
             display: "flex",
             justifyContent: "center",

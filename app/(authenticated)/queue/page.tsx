@@ -1,8 +1,10 @@
+"use client";
+
 import Breadcrumb from "@/app/components/Breadcrumb";
-import CampaignCardContent from "@/app/(authenticated)/campaigns/CampaignCardContent";
 import CardGroup from "@/app/components/CardGroup";
 import PageHeading from "@/app/components/PageHeading";
 import Tabs from "@/app/components/Tabs";
+import TweetCardContent from "../campaigns/[slug]/TweetCardContent";
 
 function Queue() {
   const items = ["Today", "Upcoming", "Posted"];
@@ -14,7 +16,7 @@ function Queue() {
       <Tabs items={items}>
         <Tabs.Item items={items} />
         <Tabs.Content items={items}>
-          <CardGroup showCreateOption CardContent={<CampaignCardContent />} />
+          <CardGroup CardContent={<TweetCardContent />} />
         </Tabs.Content>
       </Tabs>
     </>

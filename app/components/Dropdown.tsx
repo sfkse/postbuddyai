@@ -2,17 +2,30 @@ import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
 import React from "react";
 
-function Dropdown() {
+type DropdownProps = {
+  items: {
+    label: string;
+    color?: string;
+  }[];
+  Icon: React.ReactNode;
+  color?: string;
+};
+
+function Dropdown({ items, Icon }: DropdownProps) {
+  console.log(items);
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <IconButton variant="ghost">
-          <DotsVerticalIcon width="18" height="18" />
+        <IconButton variant="ghost" radius="full" style={{ padding: "0.5rem" }}>
+          {Icon}
         </IconButton>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
-        <DropdownMenu.Item>Edit</DropdownMenu.Item>
-        <DropdownMenu.Item color="red">Delete</DropdownMenu.Item>
+        {items.map((item) => (
+          <DropdownMenu.Item key={item.label} color={item.color || "indigo"}>
+            {item.label}
+          </DropdownMenu.Item>
+        ))}
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

@@ -15,15 +15,17 @@ import {
 import ScheduleTweetModal from "./ScheduleTweetModal";
 import useOpenModal from "@/app/hooks/useOpenModal";
 import { createPortal } from "react-dom";
+import Modal from "@/app/components/Modal";
 
 function CreateTweetFields() {
   const { isOpen, closeModal, openModal } = useOpenModal();
   return (
     <>
-      {createPortal(
+      {/* {createPortal(
         <ScheduleTweetModal isOpen={isOpen} closeModal={closeModal} />,
         document.body
-      )}
+      )} */}
+
       <Text as="p" size="2" style={{ color: "var(--secondary-light)" }}>
         Tweets created with AI will be around the topics: React, Next.js, and
         Radix UI.
@@ -54,9 +56,17 @@ function CreateTweetFields() {
       <Flex align="center" gap="3" width="100%">
         <Flex align="center" gap="2">
           <Strong>Schedule tweet</Strong> -
-          <Button variant="ghost" type="button" onClick={openModal}>
-            Set
-          </Button>
+          <Modal name="create">
+            <Modal.Trigger>
+              <Button>Set</Button>
+            </Modal.Trigger>
+            <Modal.Content
+              title="Schedule tweet"
+              description="Tweets created with AI will be around the topics: React, Next.js, and Radix UI."
+            >
+              <ScheduleTweetModal closeModal={closeModal} />
+            </Modal.Content>
+          </Modal>
         </Flex>
       </Flex>
       <Flex justify="end" align="center" gap="3" width="100%">

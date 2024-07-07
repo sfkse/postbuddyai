@@ -11,10 +11,11 @@ import { Flex } from "@radix-ui/themes";
 import { useParams } from "next/navigation";
 import useOpenSlideScreen from "@/app/hooks/useOpenSlideScreen";
 import CreateTweetFields from "@/app/(authenticated)/campaigns/[slug]/CreateTweetFields";
+import TweetCardContent from "./TweetCardContent";
 
 function CampaignDetail() {
   const { slug } = useParams();
-  const { isSlideScreenOpen, setIsSlideScreenOpen } = useOpenSlideScreen();
+  const { isSlideScreenOpen, openSlideScreen } = useOpenSlideScreen();
 
   const breadcrumbItems = [
     { title: "Campaigns", href: "/campaigns" },
@@ -26,7 +27,7 @@ function CampaignDetail() {
         formTitle="Create tweet"
         FormContent={<CreateTweetFields />}
         isSlideScreenOpen={isSlideScreenOpen}
-        setIsSlideScreenOpen={setIsSlideScreenOpen}
+        setIsSlideScreenOpen={openSlideScreen}
       />
       <Breadcrumb items={breadcrumbItems} />
       <Flex align="center" justify="between">
@@ -35,8 +36,8 @@ function CampaignDetail() {
       </Flex>
       <CardGroup
         showCreateOption
-        CardContent={<CampaignCardContent />}
-        setIsSlideScreenOpen={setIsSlideScreenOpen}
+        CardContent={<TweetCardContent />}
+        setIsSlideScreenOpen={openSlideScreen}
       />
     </>
   );

@@ -10,7 +10,7 @@ import Tabs from "@/app/components/Tabs";
 import useOpenSlideScreen from "@/app/hooks/useOpenSlideScreen";
 
 function Campaigns() {
-  const { isSlideScreenOpen, setIsSlideScreenOpen } = useOpenSlideScreen();
+  const { isSlideScreenOpen, openSlideScreen } = useOpenSlideScreen();
   const items = ["Overview", "Flow"];
   return (
     <>
@@ -20,13 +20,13 @@ function Campaigns() {
         formTitle="Create campaign"
         FormContent={<CreateCampaignFields />}
         isSlideScreenOpen={isSlideScreenOpen}
-        setIsSlideScreenOpen={setIsSlideScreenOpen}
+        setIsSlideScreenOpen={openSlideScreen}
       />
       <Tabs items={items}>
         <Tabs.Item items={items} />
         <Tabs.Content items={items}>
           <CardGroup
-            setIsSlideScreenOpen={setIsSlideScreenOpen}
+            setIsSlideScreenOpen={openSlideScreen}
             showCreateOption
             CardContent={<CampaignCardContent />}
           />
