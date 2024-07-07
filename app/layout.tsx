@@ -1,9 +1,9 @@
 import { Box, Flex, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { Inter, Open_Sans } from "next/font/google";
-import "@/app/styles/global.css";
-import Sidebar from "./components/Sidebar";
-import Appbar from "./components/Appbar";
+import "@/styles/global.css";
+import Sidebar from "../components/Sidebar";
+import Appbar from "../components/Appbar";
 import { ClerkProvider } from "@clerk/nextjs";
 
 // const inter = Inter({ subsets: ["latin"] });

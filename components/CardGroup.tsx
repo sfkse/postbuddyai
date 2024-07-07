@@ -9,7 +9,7 @@ import {
   Grid,
   IconButton,
 } from "@radix-ui/themes";
-import Dropdown from "@/app/components/Dropdown";
+import Dropdown from "./Dropdown";
 
 type CardGroupProps = {
   CardContent: React.ReactNode;

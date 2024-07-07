@@ -1,14 +1,14 @@
 "use client";
 
-import AutoRenew from "@/app/components/AutoRenew";
-import Breadcrumb from "@/app/components/Breadcrumb";
-import CardGroup from "@/app/components/CardGroup";
-import SlideScreen from "@/app/components/SlideScreen";
-import PageHeading from "@/app/components/PageHeading";
-import { capitalize } from "@/app/utils/string";
+import AutoRenew from "@/components/AutoRenew";
+import Breadcrumb from "@/components/Breadcrumb";
+import CardGroup from "@/components/CardGroup";
+import SlideScreen from "@/components/SlideScreen";
+import PageHeading from "@/components/PageHeading";
+import { capitalize } from "@/utils/string";
 import { Flex } from "@radix-ui/themes";
 import { useParams } from "next/navigation";
-import useOpenSlideScreen from "@/app/hooks/useOpenSlideScreen";
+import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
 import CreateTweetFields from "@/app/(authenticated)/campaigns/[slug]/CreateTweetFields";
 import TweetCardContent from "./TweetCardContent";
 

@@ -1,7 +1,7 @@
-import Breadcrumb from "@/app/components/Breadcrumb";
-import CardGroup from "@/app/components/CardGroup";
-import PageHeading from "@/app/components/PageHeading";
-import Tabs from "@/app/components/Tabs";
+import Breadcrumb from "@/components/Breadcrumb";
+import CardGroup from "@/components/CardGroup";
+import PageHeading from "@/components/PageHeading";
+import Tabs from "@/components/Tabs";
 import TweetCardContent from "../campaigns/[slug]/TweetCardContent";
 
 function Queue() {

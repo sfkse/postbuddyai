@@ -1,5 +1,5 @@
 import { Box, Flex, Strong, Text, Tooltip } from "@radix-ui/themes";
-import Badge from "../../components/Badge";
+import Badge from "../../../components/Badge";
 
 function CampaignCardContent() {
   return (

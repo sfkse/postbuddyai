@@ -1,13 +1,13 @@
 "use client";
 
-import Breadcrumb from "@/app/components/Breadcrumb";
+import Breadcrumb from "@/components/Breadcrumb";
 import CampaignCardContent from "./CampaignCardContent";
-import CardGroup from "@/app/components/CardGroup";
+import CardGroup from "@/components/CardGroup";
 import CreateCampaignFields from "@/app/(authenticated)/campaigns/CreateCampaignFields";
-import PageHeading from "@/app/components/PageHeading";
-import SlideScreen from "@/app/components/SlideScreen";
-import Tabs from "@/app/components/Tabs";
-import useOpenSlideScreen from "@/app/hooks/useOpenSlideScreen";
+import PageHeading from "@/components/PageHeading";
+import SlideScreen from "@/components/SlideScreen";
+import Tabs from "@/components/Tabs";
+import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
 
 function Campaigns() {
   const { isSlideScreenOpen, openSlideScreen } = useOpenSlideScreen();
