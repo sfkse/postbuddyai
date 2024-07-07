@@ -1,4 +1,4 @@
-import AutoRenew from "@/components/AutoRenew";
+import AutoRenew from "@/src/components/AutoRenew";
 import { Button, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
 
 function CreateCampaignFields() {

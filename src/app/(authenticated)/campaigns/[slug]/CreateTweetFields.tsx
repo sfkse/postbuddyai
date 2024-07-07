@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "@radix-ui/themes";
 import ScheduleTweetModal from "./ScheduleTweetModal";
-import Modal from "@/components/Modal";
+import Modal from "@/src/components/Modal";
 
 function CreateTweetFields() {
   return (
