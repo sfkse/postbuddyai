@@ -22,12 +22,6 @@ function CampaignDetail() {
   ];
   return (
     <>
-      <SlideScreen
-        formTitle="Create tweet"
-        FormContent={<CreateTweetFields />}
-        isSlideScreenOpen={isSlideScreenOpen}
-        openSlideScreen={openSlideScreen}
-      />
       <Breadcrumb items={breadcrumbItems} />
       <Flex align="center" justify="between">
         <PageHeading>{capitalize(slug as string)}</PageHeading>
@@ -36,6 +30,12 @@ function CampaignDetail() {
       <CardGroup
         showCreateOption
         CardContent={<TweetCardContent />}
+        openSlideScreen={openSlideScreen}
+      />
+      <SlideScreen
+        formTitle="Create tweet"
+        FormContent={<CreateTweetFields />}
+        isSlideScreenOpen={isSlideScreenOpen}
         openSlideScreen={openSlideScreen}
       />
     </>

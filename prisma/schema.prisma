@@ -33,6 +33,7 @@ model Campaign {
   user        User     @relation(fields: [userId], references: [id])
   userId      Int
   Topics      Topics[]
+  Tweets      Tweets[]
 }
 
 model Topics {
@@ -42,16 +43,15 @@ model Topics {
   status      Int
   campaign    Campaign @relation(fields: [campaignId], references: [id])
   campaignId  Int
-  Tweets      Tweets[]
 }
 
 model Tweets {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   tweet       String
   status      Int
-  topics      Topics   @relation(fields: [topicsId], references: [id])
-  topicsId    Int
-  user        User     @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
   userId      Int
   scheduledAt DateTime
+  Campaign    Campaign? @relation(fields: [campaignId], references: [id])
+  campaignId  Int?
 }

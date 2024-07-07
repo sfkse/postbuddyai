@@ -1,5 +1,3 @@
-"use client";
-
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import IconButton from "./IconButton";

@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { DotsVerticalIcon, PlusIcon } from "@radix-ui/react-icons";
 import {

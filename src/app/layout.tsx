@@ -1,10 +1,11 @@
 import { Box, Flex, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { Inter, Open_Sans } from "next/font/google";
-import "@/styles/global.css";
+import "@/src/styles/global.css";
+
+import { ClerkProvider, SignedIn } from "@clerk/nextjs";
 import Sidebar from "../components/Sidebar";
 import Appbar from "../components/Appbar";
-import { ClerkProvider } from "@clerk/nextjs";
 
 // const inter = Inter({ subsets: ["latin"] });
 const openSans = Open_Sans({
@@ -24,9 +25,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body>
           <Theme>
             <Flex width="100%">
-              <Sidebar />
+              <SignedIn>
+                <Sidebar />
+              </SignedIn>
               <Box width="100%">
-                <Appbar />
+                <SignedIn>
+                  <Appbar />
+                </SignedIn>
                 <main style={{ padding: "2rem" }}>{children}</main>
               </Box>
             </Flex>
