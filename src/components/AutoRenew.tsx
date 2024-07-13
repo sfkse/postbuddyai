@@ -1,7 +1,7 @@
 import { MagicWandIcon } from "@radix-ui/react-icons";
 import { Flex, Switch, Text, Tooltip } from "@radix-ui/themes";
 
-function AutoRenew() {
+function AutoRenew({ children }: { children: React.ReactNode }) {
   return (
     <Flex justify="between" align="center" gap="2">
       <Tooltip
@@ -10,8 +10,8 @@ function AutoRenew() {
       >
         <MagicWandIcon />
       </Tooltip>
+      {children}
       <Text>Auto-renew</Text>
-      <Switch defaultChecked />
     </Flex>
   );
 }

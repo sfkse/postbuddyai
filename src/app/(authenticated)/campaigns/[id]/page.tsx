@@ -1,34 +1,35 @@
 "use client";
 
-import AutoRenew from "@/src/components/AutoRenew";
-import Breadcrumb from "@/src/components/Breadcrumb";
-import CardGroup from "@/src/components/CardGroup";
-import SlideScreen from "@/src/components/SlideScreen";
-import PageHeading from "@/src/components/PageHeading";
-import { capitalize } from "@/src/utils/string";
-import { Flex } from "@radix-ui/themes";
+import AutoRenew from "@/components/AutoRenew";
+import Breadcrumb from "@/components/Breadcrumb";
+import CardGroup from "@/components/CardGroup";
+import SlideScreen from "@/components/SlideScreen";
+import PageHeading from "@/components/PageHeading";
+import { capitalize } from "@/utils/string";
+import { Flex, Switch } from "@radix-ui/themes";
 import { useParams } from "next/navigation";
-import useOpenSlideScreen from "@/src/hooks/useOpenSlideScreen";
+import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
 import TweetCardContent from "./TweetCardContent";
 import CreateTweetFields from "./CreateTweetFields";
 
 function CampaignDetail() {
-  const { slug } = useParams();
+  const { id } = useParams();
   const { isSlideScreenOpen, openSlideScreen } = useOpenSlideScreen();
 
   const breadcrumbItems = [
     { title: "Campaigns", href: "/campaigns" },
-    { title: capitalize(slug as string), href: "" },
+    { title: capitalize(id as string), href: "" },
   ];
   return (
     <>
       <Breadcrumb items={breadcrumbItems} />
       <Flex align="center" justify="between">
-        <PageHeading>{capitalize(slug as string)}</PageHeading>
-        <AutoRenew />
+        <PageHeading>{capitalize(id as string)}</PageHeading>
+        <AutoRenew>
+          <Switch onCheckedChange={(e) => console.log(e)} name="autorenew" />
+        </AutoRenew>
       </Flex>
       <CardGroup
-        showCreateOption
         CardContent={<TweetCardContent />}
         openSlideScreen={openSlideScreen}
       />

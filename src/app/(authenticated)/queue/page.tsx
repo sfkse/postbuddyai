@@ -1,8 +1,8 @@
-import Breadcrumb from "@/src/components/Breadcrumb";
-import CardGroup from "@/src/components/CardGroup";
-import PageHeading from "@/src/components/PageHeading";
-import Tabs from "@/src/components/Tabs";
-import TweetCardContent from "../campaigns/[slug]/TweetCardContent";
+import Breadcrumb from "@/components/Breadcrumb";
+import CardGroup from "@/components/CardGroup";
+import PageHeading from "@/components/PageHeading";
+import Tabs from "@/components/Tabs";
+import TweetCardContent from "../campaigns/[id]/TweetCardContent";
 
 function Queue() {
   const items = ["Today", "Upcoming", "Posted"];

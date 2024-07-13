@@ -1,13 +1,19 @@
 import { Box, Flex, Strong, Text, Tooltip } from "@radix-ui/themes";
 import Badge from "../../../components/Badge";
+import { Campaign } from "@prisma/client";
 
-function CampaignCardContent() {
+type CampaignCardContentProps = {
+  campaign: Campaign;
+};
+
+function CampaignCardContent({ campaign }: CampaignCardContentProps) {
   return (
     <Flex gap="2" mt="4" direction="column">
       <Flex maxWidth="100%" gap="2" align="center">
         <Tooltip content="React, Next.js, Radix UI">
           <Text as="span" size="2" truncate>
-            <Strong>Topics:</Strong> React, Next.js, Radix UI
+            <Strong>Topics: </Strong>
+            {campaign.topics}
           </Text>
         </Tooltip>
       </Flex>

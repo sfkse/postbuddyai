@@ -4,37 +4,29 @@ import {
   Card as CardComponent,
   Heading,
   Flex,
-  Grid,
   IconButton,
 } from "@radix-ui/themes";
 import Dropdown from "./Dropdown";
 
 type CardGroupProps = {
-  CardContent: React.ReactNode;
-  showCreateOption?: boolean;
+  href?: string;
+  CardContent?: React.ReactNode;
+  cardTitle?: string;
+  createType?: boolean;
   openSlideScreen?: (value: boolean) => void;
 };
 
 function CardGroup({
-  showCreateOption = false,
+  createType = false,
   CardContent,
+  cardTitle,
+  href,
   openSlideScreen,
 }: CardGroupProps) {
   const items = [{ label: "Edit" }, { label: "Delete", color: "red" as "red" }];
   return (
-    <Grid mt="8" gap="4" columns="repeat(auto-fill,minmax(250px, 1fr)">
-      <CardComponent variant="classic" asChild style={{ padding: "1.25rem" }}>
-        <Link href="/campaigns/development">
-          <Flex justify="between" align="center">
-            <Heading size="4" weight="bold" mb="2">
-              Development
-            </Heading>
-            <Dropdown items={items} Icon={<DotsVerticalIcon />} />
-          </Flex>
-          {CardContent}
-        </Link>
-      </CardComponent>
-      {showCreateOption && (
+    <>
+      {createType ? (
         <CardComponent
           variant="classic"
           asChild
@@ -55,8 +47,20 @@ function CardGroup({
             </IconButton>
           </Link>
         </CardComponent>
+      ) : (
+        <CardComponent variant="classic" asChild style={{ padding: "1.25rem" }}>
+          <Link href={href || "#"}>
+            <Flex justify="between" align="center">
+              <Heading size="4" weight="bold" mb="2">
+                {cardTitle}
+              </Heading>
+              <Dropdown items={items} Icon={<DotsVerticalIcon />} />
+            </Flex>
+            {CardContent}
+          </Link>
+        </CardComponent>
       )}
-    </Grid>
+    </>
   );
 }
 
