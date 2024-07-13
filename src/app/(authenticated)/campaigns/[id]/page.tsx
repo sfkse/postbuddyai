@@ -1,43 +1,38 @@
-"use client";
-
-import AutoRenew from "@/components/AutoRenew";
 import Breadcrumb from "@/components/Breadcrumb";
-import CardGroup from "@/components/CardGroup";
-import SlideScreen from "@/components/SlideScreen";
-import PageHeading from "@/components/PageHeading";
+import TweetsList from "./TweetsList";
+import { getCampaignsWithTweets } from "@/utils/actions";
+import { CampaignsWithTweets } from "@/utils/types";
 import { capitalize } from "@/utils/string";
-import { Flex, Switch } from "@radix-ui/themes";
-import { useParams } from "next/navigation";
-import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
-import TweetCardContent from "./TweetCardContent";
-import CreateTweetFields from "./CreateTweetFields";
 
-function CampaignDetail() {
-  const { id } = useParams();
-  const { isSlideScreenOpen, openSlideScreen } = useOpenSlideScreen();
+async function CampaignDetail({ params }: { params: { id: string } }) {
+  const campaigns: CampaignsWithTweets = await getCampaignsWithTweets();
+  console.log(campaigns);
 
-  const breadcrumbItems = [
-    { title: "Campaigns", href: "/campaigns" },
-    { title: capitalize(id as string), href: "" },
-  ];
+  if (campaigns === undefined) {
+    return <p>No campaigns found</p>;
+  }
+  const { id } = params;
+  const campaign = campaigns.find((campaign) => campaign.id === id);
+
+  if (!campaign) {
+    return <p>No campaigns found</p>;
+  }
+
+  const tweets = campaign?.tweets;
+
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} />
-      <Flex align="center" justify="between">
-        <PageHeading>{capitalize(id as string)}</PageHeading>
-        <AutoRenew>
-          <Switch onCheckedChange={(e) => console.log(e)} name="autorenew" />
-        </AutoRenew>
-      </Flex>
-      <CardGroup
-        CardContent={<TweetCardContent />}
-        openSlideScreen={openSlideScreen}
+      <Breadcrumb
+        items={[
+          { title: "Campaigns", href: "/campaigns" },
+          { title: capitalize(campaign.name), href: `/campaigns/${id}` },
+        ]}
       />
-      <SlideScreen
-        formTitle="Create tweet"
-        FormContent={<CreateTweetFields />}
-        isSlideScreenOpen={isSlideScreenOpen}
-        openSlideScreen={openSlideScreen}
+      <TweetsList
+        tweets={tweets}
+        campaignName={campaign.name}
+        camapaignId={id}
+        isAutoRenew={campaign.isAutoRenew}
       />
     </>
   );

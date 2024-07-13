@@ -34,7 +34,7 @@ function CreateCampaignFields() {
           rows={5}
           placeholder="What topics do you want to cover?"
           style={{ outline: "none", padding: "0.5rem", width: "100%" }}
-          name="description"
+          name="topics"
         />
         <Flex>
           <AutoRenew>

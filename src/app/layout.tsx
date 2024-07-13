@@ -1,6 +1,6 @@
 import { Box, Flex, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
-import { Inter, Open_Sans } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "@/styles/global.css";
 
 import { ClerkProvider, SignedIn } from "@clerk/nextjs";

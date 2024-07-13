@@ -1,5 +1,5 @@
 import { MagicWandIcon } from "@radix-ui/react-icons";
-import { Flex, Switch, Text, Tooltip } from "@radix-ui/themes";
+import { Flex, Text, Tooltip } from "@radix-ui/themes";
 
 function AutoRenew({ children }: { children: React.ReactNode }) {
   return (

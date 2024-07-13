@@ -7,11 +7,11 @@ import React from "react";
 import CampaignCardContent from "./CampaignCardContent";
 import SlideScreen from "@/components/SlideScreen";
 import CreateCampaignFields from "./CreateCampaignFields";
-import { Campaign } from "@prisma/client";
 import { Grid } from "@radix-ui/themes";
+import { CampaignsWithTweets } from "@/utils/types";
 
 type CampaignsProps = {
-  campaigns: Campaign[];
+  campaigns: CampaignsWithTweets[];
 };
 
 function Campaigns({ campaigns }: CampaignsProps) {

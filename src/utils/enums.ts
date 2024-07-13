@@ -10,3 +10,9 @@ export enum ECampaignStatus {
   DELETED = 2,
 }
 
+export enum ETweetStatus {
+  ACTIVE = 1,
+  DRAFT = 2,
+  DELETED = 3,
+}
+

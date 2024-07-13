@@ -1,25 +1,23 @@
+import { formatToXDaysAgo } from "@/utils/dates";
+import { Tweets } from "@prisma/client";
 import { ClockIcon } from "@radix-ui/react-icons";
-import {
-  Avatar,
-  Badge,
-  Box,
-  Flex,
-  Heading,
-  Text,
-  TextArea,
-} from "@radix-ui/themes";
+import { Badge, Box, Flex, Text } from "@radix-ui/themes";
 
-function TweetCardContent() {
+type TweetCardContentProps = {
+  tweet: Tweets;
+};
+
+function TweetCardContent({ tweet }: TweetCardContentProps) {
   return (
     <Flex direction="column" gap="5" mt="4" width="100%">
       <Flex align="start" gap="2" width="100%">
-        <Avatar fallback="JD" size="3" radius="full" />
+        {/* <Avatar fallback="JD" size="3" radius="full" /> */}
         <Flex direction="column" gap="3" width="100%">
-          <Heading as="h2" size="3" weight="bold">
+          {/* <Heading as="h2" size="3" weight="bold">
             John Doe
-          </Heading>
+          </Heading> */}
           <Box width="100%">
-            <Text>Hey, how is everything</Text>
+            <Text>{tweet.content}</Text>
           </Box>
         </Flex>
       </Flex>
@@ -30,7 +28,7 @@ function TweetCardContent() {
         <Flex align="center" gap="2">
           <ClockIcon />
           <Text size="1" style={{ color: "var(--secondary)" }}>
-            12:00 PM
+            {formatToXDaysAgo(tweet.scheduledAt)}
           </Text>
         </Flex>
       </Flex>

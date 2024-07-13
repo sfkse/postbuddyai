@@ -41,7 +41,7 @@ function Sidebar() {
               borderRadius: "0.3rem",
               fontSize: "1.1rem",
             }}
-            className={pathName === "/campaigns" ? "active" : ""}
+            className={pathName.includes("/campaigns") ? "active" : ""}
           >
             Campaigns
           </Link>
@@ -53,7 +53,7 @@ function Sidebar() {
               borderRadius: "0.3rem",
               fontSize: "1.1rem",
             }}
-            className={pathName === "/queue" ? "active" : ""}
+            className={pathName.includes("/queue") ? "active" : ""}
           >
             Queue
           </Link>
@@ -65,7 +65,7 @@ function Sidebar() {
               borderRadius: "0.3rem",
               fontSize: "1.1rem",
             }}
-            className={pathName === "/drafts" ? "active" : ""}
+            className={pathName.includes("/drafts") ? "active" : ""}
           >
             Drafts
           </Link>
@@ -77,7 +77,7 @@ function Sidebar() {
               borderRadius: "0.3rem",
               fontSize: "1.1rem",
             }}
-            className={pathName === "/settings" ? "active" : ""}
+            className={pathName.includes("/settings") ? "active" : ""}
           >
             Settings
           </Link>

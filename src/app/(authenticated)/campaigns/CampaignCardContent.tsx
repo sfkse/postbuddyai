@@ -1,9 +1,10 @@
 import { Box, Flex, Strong, Text, Tooltip } from "@radix-ui/themes";
 import Badge from "../../../components/Badge";
-import { Campaign } from "@prisma/client";
+import { formatToXDaysAgo } from "@/utils/dates";
+import { CampaignsWithTweets } from "@/utils/types";
 
 type CampaignCardContentProps = {
-  campaign: Campaign;
+  campaign: CampaignsWithTweets;
 };
 
 function CampaignCardContent({ campaign }: CampaignCardContentProps) {
@@ -19,12 +20,13 @@ function CampaignCardContent({ campaign }: CampaignCardContentProps) {
       </Flex>
       <Box style={{ color: "var(--secondary-light)" }}>
         <Text as="span" size="2">
-          <Strong>Tweets:</Strong> 5/10
+          <Strong>Tweets:</Strong>{" "}
+          {`${campaign.tweets.length} / ${campaign.tweets.length}`}
         </Text>
       </Box>
       <Box style={{ color: "var(--secondary-light)" }}>
         <Text as="span" size="2">
-          <Strong>Created:</Strong> 2 days ago
+          <Strong>Created:</Strong> {formatToXDaysAgo(campaign.createdAt)}
         </Text>
       </Box>
       <Flex>

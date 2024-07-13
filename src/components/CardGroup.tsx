@@ -35,6 +35,7 @@ function CardGroup({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            height: "200px",
           }}
         >
           <Link href="#">
