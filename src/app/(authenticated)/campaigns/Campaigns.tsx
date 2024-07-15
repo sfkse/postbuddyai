@@ -1,33 +1,37 @@
 "use client";
 import CardGroup from "@/components/CardGroup";
-import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
+import useToggleSlideScreen from "@/hooks/useToggleSlideScreen";
 import CampaignCardContent from "./CampaignCardContent";
 import SlideScreen from "@/components/SlideScreen";
-import CreateCampaignFields from "./CreateCampaignFields";
+import CampaignFormFields from "./CampaignFormFields";
 import { Grid } from "@radix-ui/themes";
 import { CampaignsWithTweets } from "@/utils/types";
 import { deleteCampaign } from "@/utils/actions";
+import { useState } from "react";
 
 type CampaignsProps = {
   campaigns: CampaignsWithTweets[];
 };
 
 function Campaigns({ campaigns }: CampaignsProps) {
-  const { isSlideScreenOpen, openSlideScreen } = useOpenSlideScreen();
+  const { isSlideScreenOpen, toggleSlideScreen } = useToggleSlideScreen();
+  const [campaignToBeUpdated, setCampaignToBeUpdated] =
+    useState<CampaignsWithTweets | null>(null);
 
-  const getDropdownItems = (id: string) => [
+  const getDropdownItems = (campaign: CampaignsWithTweets) => [
     {
       label: "Edit",
       onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        console.log("Clicked Edit");
+        toggleSlideScreen();
+        setCampaignToBeUpdated(campaign);
       },
     },
     {
       label: "Delete",
       onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        deleteCampaign(id);
+        deleteCampaign(campaign.id);
       },
       color: "red" as "red",
     },
@@ -38,21 +42,21 @@ function Campaigns({ campaigns }: CampaignsProps) {
       <Grid mt="8" gap="4" columns="repeat(auto-fill,minmax(250px, 1fr)">
         {campaigns.map((campaign) => (
           <CardGroup
-            dropdownItems={getDropdownItems(campaign.id)}
+            dropdownItems={getDropdownItems(campaign)}
             href={`/campaigns/${campaign.id}`}
             key={campaign.id}
             cardTitle={campaign.name}
-            openSlideScreen={openSlideScreen}
+            toggleSlideScreen={toggleSlideScreen}
             CardContent={<CampaignCardContent campaign={campaign} />}
           />
         ))}
-        <CardGroup createType openSlideScreen={openSlideScreen} />
+        <CardGroup createType toggleSlideScreen={toggleSlideScreen} />
       </Grid>
       <SlideScreen
         formTitle="Create campaign"
-        FormContent={<CreateCampaignFields />}
+        FormContent={<CampaignFormFields campaign={campaignToBeUpdated} />}
         isSlideScreenOpen={isSlideScreenOpen}
-        openSlideScreen={openSlideScreen}
+        toggleSlideScreen={toggleSlideScreen}
       />
     </>
   );

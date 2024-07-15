@@ -1,11 +1,11 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import PageHeading from "@/components/PageHeading";
 import QueueContent from "./QueueContent";
-import { getTweets } from "@/utils/actions";
+import { getActiveTweets } from "@/utils/actions";
 
 async function Queue() {
-  const tweets = await getTweets();
-  console.log(tweets);
+  const tweets = await getActiveTweets();
+
   return (
     <>
       <Breadcrumb items={[{ title: "Queue", href: "/queue" }]} />

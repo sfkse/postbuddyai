@@ -6,7 +6,6 @@ import { capitalize } from "@/utils/string";
 
 async function CampaignDetail({ params }: { params: { id: string } }) {
   const campaigns: CampaignsWithTweets = await getCampaignsWithTweets();
-  console.log(campaigns);
 
   if (campaigns === undefined) {
     return <p>No campaigns found</p>;

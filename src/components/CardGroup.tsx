@@ -18,7 +18,7 @@ type CardGroupProps = {
   CardContent?: React.ReactNode;
   cardTitle?: string;
   createType?: boolean;
-  openSlideScreen?: (value: boolean) => void;
+  toggleSlideScreen?: (value: boolean) => void;
 };
 
 function CardGroup({
@@ -26,7 +26,7 @@ function CardGroup({
   CardContent,
   cardTitle,
   href,
-  openSlideScreen,
+  toggleSlideScreen,
   createType = false,
 }: CardGroupProps) {
   return (
@@ -35,7 +35,7 @@ function CardGroup({
         <CardComponent
           variant="classic"
           asChild
-          onClick={() => openSlideScreen?.(true)}
+          onClick={() => toggleSlideScreen?.(true)}
           style={{
             display: "flex",
             justifyContent: "center",

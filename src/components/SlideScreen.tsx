@@ -4,7 +4,7 @@ import IconButton from "./IconButton";
 
 type SlideScreenProps = {
   isSlideScreenOpen?: boolean;
-  openSlideScreen: (value: boolean) => void;
+  toggleSlideScreen: (value: boolean) => void;
   formTitle: string;
   formDescription?: string;
   FormContent: React.ReactNode;
@@ -12,7 +12,7 @@ type SlideScreenProps = {
 
 function SlideScreen({
   isSlideScreenOpen = false,
-  openSlideScreen,
+  toggleSlideScreen,
   formTitle,
   formDescription,
   FormContent,
@@ -25,7 +25,7 @@ function SlideScreen({
       >
         <Flex width="100%" justify="end">
           <IconButton radius="small" variant="soft">
-            <Cross1Icon onClick={() => openSlideScreen(false)} />
+            <Cross1Icon onClick={() => toggleSlideScreen(false)} />
           </IconButton>
         </Flex>
         <Flex

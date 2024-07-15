@@ -1,4 +1,5 @@
 import { formatToXDaysAgo } from "@/utils/dates";
+import { ETweetStatus } from "@/utils/enums";
 import { Tweets } from "@prisma/client";
 import { ClockIcon } from "@radix-ui/react-icons";
 import { Badge, Box, Flex, Text } from "@radix-ui/themes";
@@ -23,9 +24,20 @@ function TweetCardContent({ tweet, campaingName }: TweetCardContentProps) {
         </Flex>
       </Flex>
       <Flex justify="between" align="center" gap="3" width="100%">
-        <Badge variant="soft" color="orange">
-          Scheduled
-        </Badge>
+        {tweet.status === ETweetStatus.SENT ? (
+          <Badge variant="soft" color="green">
+            Sent
+          </Badge>
+        ) : tweet.status === ETweetStatus.DRAFT ? (
+          <Badge variant="soft" color="red">
+            Draft
+          </Badge>
+        ) : (
+          <Badge variant="soft" color="orange">
+            Scheduled
+          </Badge>
+        )}
+        <Badge variant="soft" color="orange"></Badge>
         <Flex align="center" gap="2">
           <ClockIcon />
           <Text size="1" style={{ color: "var(--secondary)" }}>

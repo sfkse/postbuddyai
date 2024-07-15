@@ -17,8 +17,6 @@ export const createCampaign = async (formData: any) => {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  // const { name, topics, autorenew } = Object.fromEntries(formData.entries());
-
   const campaign: Campaign = {
     id: randomUUID(),
     userId,
@@ -31,6 +29,32 @@ export const createCampaign = async (formData: any) => {
   try {
     const response = await prisma.campaign.create({
       data: campaign,
+    });
+
+    revalidatePath("/campaigns");
+    return response;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const updateCampaign = async (formData: any, campaignId: string) => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const response = await prisma.campaign.update({
+      where: {
+        id: campaignId,
+      },
+      data: {
+        ...formData,
+        updatedAt: new Date(),
+      },
     });
 
     revalidatePath("/campaigns");
@@ -159,7 +183,7 @@ export const createTweet = async (formData: any) => {
   }
 };
 
-export const getTweets = async () => {
+export const getActiveTweets = async () => {
   const { userId } = auth();
 
   if (!userId) {
@@ -170,7 +194,7 @@ export const getTweets = async () => {
     const tweets = await prisma.tweets.findMany({
       where: {
         userId,
-        status: ETweetStatus.ACTIVE,
+        status: ETweetStatus.ACTIVE && ETweetStatus.SENT,
       },
       include: {
         campaign: {

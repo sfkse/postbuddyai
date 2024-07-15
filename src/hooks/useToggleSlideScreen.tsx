@@ -1,17 +1,17 @@
 import { useState } from "react";
 
-function useOpenSlideScreen() {
+function useToggleSlideScreen() {
   const [isSlideScreenOpen, setIsSlideScreenOpen] = useState(false);
 
-  const openSlideScreen = () => {
+  const toggleSlideScreen = () => {
     setIsSlideScreenOpen((prev) => !prev);
   };
 
   return {
     isSlideScreenOpen,
-    openSlideScreen,
+    toggleSlideScreen,
   };
 }
 
-export default useOpenSlideScreen;
+export default useToggleSlideScreen;
 

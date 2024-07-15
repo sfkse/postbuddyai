@@ -3,7 +3,7 @@ import AutoRenew from "@/components/AutoRenew";
 import CardGroup from "@/components/CardGroup";
 import { Flex, Grid, Switch } from "@radix-ui/themes";
 import TweetCardContent from "./TweetCardContent";
-import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
+import useToggleSlideScreen from "@/hooks/useToggleSlideScreen";
 import SlideScreen from "@/components/SlideScreen";
 import CreateTweetFields from "./CreateTweetFields";
 import { Tweets } from "@prisma/client";
@@ -22,7 +22,7 @@ function TweetsList({
   camapaignId,
   isAutoRenew,
 }: TweetsListProps) {
-  const { isSlideScreenOpen, openSlideScreen } = useOpenSlideScreen();
+  const { isSlideScreenOpen, toggleSlideScreen } = useToggleSlideScreen();
 
   return (
     <>
@@ -41,19 +41,19 @@ function TweetsList({
           <CardGroup
             key={tweet.id}
             cardTitle="John Doe"
-            openSlideScreen={openSlideScreen}
+            toggleSlideScreen={toggleSlideScreen}
             CardContent={
               <TweetCardContent tweet={tweet} campaingName={campaignName} />
             }
           />
         ))}
-        <CardGroup createType openSlideScreen={openSlideScreen} />
+        <CardGroup createType toggleSlideScreen={toggleSlideScreen} />
       </Grid>
       <SlideScreen
         formTitle="Create tweet"
         FormContent={<CreateTweetFields campaignId={camapaignId} />}
         isSlideScreenOpen={isSlideScreenOpen}
-        openSlideScreen={openSlideScreen}
+        toggleSlideScreen={toggleSlideScreen}
       />
     </>
   );
