@@ -1,9 +1,7 @@
 "use client";
-
 import AutoRenew from "@/components/AutoRenew";
 import CardGroup from "@/components/CardGroup";
 import { Flex, Grid, Switch } from "@radix-ui/themes";
-import React from "react";
 import TweetCardContent from "./TweetCardContent";
 import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
 import SlideScreen from "@/components/SlideScreen";
@@ -44,7 +42,9 @@ function TweetsList({
             key={tweet.id}
             cardTitle="John Doe"
             openSlideScreen={openSlideScreen}
-            CardContent={<TweetCardContent tweet={tweet} />}
+            CardContent={
+              <TweetCardContent tweet={tweet} campaingName={campaignName} />
+            }
           />
         ))}
         <CardGroup createType openSlideScreen={openSlideScreen} />

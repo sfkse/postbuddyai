@@ -5,9 +5,10 @@ import { Badge, Box, Flex, Text } from "@radix-ui/themes";
 
 type TweetCardContentProps = {
   tweet: Tweets;
+  campaingName: string;
 };
 
-function TweetCardContent({ tweet }: TweetCardContentProps) {
+function TweetCardContent({ tweet, campaingName }: TweetCardContentProps) {
   return (
     <Flex direction="column" gap="5" mt="4" width="100%">
       <Flex align="start" gap="2" width="100%">
@@ -34,7 +35,7 @@ function TweetCardContent({ tweet }: TweetCardContentProps) {
       </Flex>
       <Flex mt="-3">
         <Badge variant="soft" color="blue">
-          Development
+          {campaingName}
         </Badge>
       </Flex>
     </Flex>

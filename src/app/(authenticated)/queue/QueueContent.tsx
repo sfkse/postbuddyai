@@ -4,11 +4,11 @@ import Tabs from "@/components/Tabs";
 import { Grid } from "@radix-ui/themes";
 import { useSearchParams } from "next/navigation";
 import TweetCardContent from "../campaigns/[id]/TweetCardContent";
-import { Tweets } from "@prisma/client";
 import { isTimePassed, isTimeWithinTheDay } from "@/utils/dates";
+import { TweetsWithCampaignName } from "@/utils/types";
 
 type QueueContentProps = {
-  tweets: Tweets[];
+  tweets: TweetsWithCampaignName[];
 };
 
 function QueueContent({ tweets }: QueueContentProps) {
@@ -40,7 +40,12 @@ function QueueContent({ tweets }: QueueContentProps) {
         <CardGroup
           key={tweet.id}
           cardTitle="John Doe"
-          CardContent={<TweetCardContent tweet={tweet} />}
+          CardContent={
+            <TweetCardContent
+              tweet={tweet}
+              campaingName={tweet.campaign.name}
+            />
+          }
         />
       ))}
     </>
@@ -52,7 +57,12 @@ function QueueContent({ tweets }: QueueContentProps) {
         <CardGroup
           key={tweet.id}
           cardTitle="John Doe"
-          CardContent={<TweetCardContent tweet={tweet} />}
+          CardContent={
+            <TweetCardContent
+              campaingName={tweet.campaign.name}
+              tweet={tweet}
+            />
+          }
         />
       ))}
     </>
@@ -64,7 +74,12 @@ function QueueContent({ tweets }: QueueContentProps) {
         <CardGroup
           key={tweet.id}
           cardTitle="John Doe"
-          CardContent={<TweetCardContent tweet={tweet} />}
+          CardContent={
+            <TweetCardContent
+              campaingName={tweet.campaign.name}
+              tweet={tweet}
+            />
+          }
         />
       ))}
     </>

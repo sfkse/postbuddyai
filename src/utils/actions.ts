@@ -217,3 +217,23 @@ export const getDrafts = async () => {
   }
 };
 
+// USER ACTIONS
+export const createUser = async (userData: any) => {
+  const { id, username, email } = userData;
+
+  try {
+    const response = await prisma.user.create({
+      data: {
+        id,
+        email,
+        username,
+      },
+    });
+    console.log("User created", id);
+    return response;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+

@@ -36,6 +36,7 @@ function CreateTweetFields({ campaignId }: CreateTweetFieldsProps) {
               placeholder="What is happening?"
               style={{ outline: "none", padding: "0.5rem" }}
               name="content"
+              required
             />
             <Flex justify="between" align="center" gap="3" width="100%">
               <IconButton radius="small" variant="soft">
@@ -51,30 +52,8 @@ function CreateTweetFields({ campaignId }: CreateTweetFieldsProps) {
         </Flex>
         <Flex align="center" gap="2" mt="7">
           <Strong>Schedule tweet</Strong> -
-          {/* <Modal name="create">
-            <Modal.Trigger>
-              <Button>Set</Button>
-            </Modal.Trigger>
-            <Modal.Content
-              title="Schedule tweet"
-              description="Tweets created with AI will be around the topics: React, Next.js, and Radix UI."
-            > */}
-          {/* <Flex gap="4" mt="5">
-            <Flex gap="2">
-              <Text as="label" size="2" style={{ color: "var(--secondary)" }}>
-                Date
-              </Text> */}
-          <input type="date" name="date" />
-          {/* </Flex> */}
-          {/* <Flex gap="2">
-              <Text as="label" size="2" style={{ color: "var(--secondary)" }}>
-                Time
-              </Text> */}
-          <input type="time" name="time" />
-          {/* </Flex>
-          </Flex> */}
-          {/* </Modal.Content>
-          </Modal> */}
+          <input type="date" name="date" required />
+          <input type="time" name="time" required />
           <input type="hidden" name="campaignId" value={campaignId} />
         </Flex>
         <Flex justify="end" align="center" gap="3" width="100%" mt="7">
