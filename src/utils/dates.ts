@@ -7,3 +7,13 @@ export const formatToXDaysAgo = (date: Date) => {
   return formattedDistance;
 };
 
+export const isTimePassed = (date: Date) => {
+  const now = new Date();
+  return date < now;
+};
+
+export const isTimeWithinTheDay = (date: Date) => {
+  const now = new Date();
+  return date.getDate() === now.getDate();
+};
+

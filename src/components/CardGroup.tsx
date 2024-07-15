@@ -9,6 +9,11 @@ import {
 import Dropdown from "./Dropdown";
 
 type CardGroupProps = {
+  dropdownItems?: {
+    label: string;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    color?: "red" | "indigo";
+  }[];
   href?: string;
   CardContent?: React.ReactNode;
   cardTitle?: string;
@@ -17,13 +22,13 @@ type CardGroupProps = {
 };
 
 function CardGroup({
-  createType = false,
+  dropdownItems,
   CardContent,
   cardTitle,
   href,
   openSlideScreen,
+  createType = false,
 }: CardGroupProps) {
-  const items = [{ label: "Edit" }, { label: "Delete", color: "red" as "red" }];
   return (
     <>
       {createType ? (
@@ -55,7 +60,13 @@ function CardGroup({
               <Heading size="4" weight="bold" mb="2">
                 {cardTitle}
               </Heading>
-              <Dropdown items={items} Icon={<DotsVerticalIcon />} />
+
+              {dropdownItems && (
+                <Dropdown
+                  items={dropdownItems || []}
+                  Icon={<DotsVerticalIcon />}
+                />
+              )}
             </Flex>
             {CardContent}
           </Link>

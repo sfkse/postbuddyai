@@ -12,7 +12,8 @@ export enum ECampaignStatus {
 
 export enum ETweetStatus {
   ACTIVE = 1,
-  DRAFT = 2,
-  DELETED = 3,
+  SENT = 2,
+  DRAFT = 3,
+  DELETED = 4,
 }
 

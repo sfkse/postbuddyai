@@ -1,4 +1,7 @@
+"use client";
+
 import AutoRenew from "@/components/AutoRenew";
+import useOpenSlideScreen from "@/hooks/useOpenSlideScreen";
 import { createCampaign } from "@/utils/actions";
 import {
   Button,
@@ -10,13 +13,31 @@ import {
 } from "@radix-ui/themes";
 
 function CreateCampaignFields() {
+  const { openSlideScreen } = useOpenSlideScreen();
+
+  const handleCreateCampaign = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const topics = formData.get("topics") as string;
+    const autorenew = formData.get("autorenew") as string;
+
+    const campaign = {
+      name,
+      topics,
+      isAutoRenew: autorenew === "on",
+    };
+
+    await createCampaign(campaign);
+    openSlideScreen();
+  };
   return (
     <>
       <Text as="p" size="2" style={{ color: "var(--secondary-light)" }}>
         Fill in the name and the topics you want to cover in your campaign.
       </Text>
       <form
-        action={createCampaign}
+        onSubmit={handleCreateCampaign}
         style={{
           width: "100%",
           display: "flex",
@@ -38,7 +59,7 @@ function CreateCampaignFields() {
         />
         <Flex>
           <AutoRenew>
-            <Switch onCheckedChange={(e) => console.log(e)} name="autorenew" />
+            <Switch name="autorenew" />
           </AutoRenew>
         </Flex>
         <Flex justify="end" align="center" gap="3" width="100%">

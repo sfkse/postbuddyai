@@ -6,9 +6,8 @@ import { NextResponse } from "next/server";
 
 import { randomUUID } from "crypto";
 import { Campaign } from "@prisma/client";
-import { ECampaignStatus } from "./enums";
+import { ECampaignStatus, ETweetStatus } from "./enums";
 import { z } from "zod";
-import { CampaignsWithTweets } from "./types";
 
 // CAMPAIGN ACTIONS
 export const createCampaign = async (formData: any) => {
@@ -18,17 +17,15 @@ export const createCampaign = async (formData: any) => {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const { name, topics, autorenew } = Object.fromEntries(formData.entries());
+  // const { name, topics, autorenew } = Object.fromEntries(formData.entries());
 
   const campaign: Campaign = {
     id: randomUUID(),
-    name,
-    topics,
     userId,
-    isAutoRenew: autorenew === "on",
     status: ECampaignStatus.ACTIVE,
     updatedAt: new Date(),
     createdAt: new Date(),
+    ...formData,
   };
 
   try {
@@ -58,11 +55,48 @@ export const getCampaignsWithTweets = async () => {
       },
       where: {
         userId,
+        status: ECampaignStatus.ACTIVE,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 
     // Return response with type
-    return campaignsWithTweets as CampaignsWithTweets;
+    return campaignsWithTweets;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const deleteCampaign = async (campaignId: string) => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const response = await prisma.campaign.update({
+      where: {
+        id: campaignId,
+      },
+      data: {
+        status: ECampaignStatus.DELETED,
+      },
+    });
+
+    await prisma.tweets.updateMany({
+      where: {
+        campaignId,
+      },
+      data: {
+        status: ETweetStatus.DELETED,
+      },
+    });
+    revalidatePath("/campaigns");
+    return response;
   } catch (error) {
     console.error(error);
     return new NextResponse("Internal Server Error", { status: 500 });
@@ -119,6 +153,64 @@ export const createTweet = async (formData: any) => {
 
     revalidatePath(`/campaigns/${campaignId}`);
     return response;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const getTweets = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const tweets = await prisma.tweets.findMany({
+      where: {
+        userId,
+        status: ETweetStatus.ACTIVE,
+      },
+      include: {
+        campaign: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    return tweets;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const getDrafts = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const drafts = await prisma.tweets.findMany({
+      where: {
+        userId,
+        status: ETweetStatus.DRAFT,
+      },
+      include: {
+        campaign: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    return drafts;
   } catch (error) {
     console.error(error);
     return new NextResponse("Internal Server Error", { status: 500 });

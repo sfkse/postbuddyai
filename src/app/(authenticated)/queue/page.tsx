@@ -1,22 +1,16 @@
 import Breadcrumb from "@/components/Breadcrumb";
-import CardGroup from "@/components/CardGroup";
 import PageHeading from "@/components/PageHeading";
-import Tabs from "@/components/Tabs";
-import TweetCardContent from "../campaigns/[id]/TweetCardContent";
+import QueueContent from "./QueueContent";
+import { getTweets } from "@/utils/actions";
 
-function Queue() {
-  const items = ["Today", "Upcoming", "Posted"];
-
+async function Queue() {
+  const tweets = await getTweets();
+  console.log(tweets);
   return (
     <>
       <Breadcrumb items={[{ title: "Queue", href: "/queue" }]} />
       <PageHeading>Queue</PageHeading>
-      <Tabs items={items}>
-        <Tabs.Item items={items} />
-        <Tabs.Content items={items}>
-          <CardGroup CardContent={<TweetCardContent />} />
-        </Tabs.Content>
-      </Tabs>
+      <QueueContent tweets={tweets} />
     </>
   );
 }

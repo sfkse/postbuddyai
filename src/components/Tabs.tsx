@@ -1,12 +1,13 @@
-import { Tabs as TabsComponent, Text } from "@radix-ui/themes";
+import { TabNav as TabsComponent } from "@radix-ui/themes";
+import Link from "next/link";
 
 type TabsProps = {
   children: React.ReactNode;
-  items: string[];
 };
 
 type TabItemProps = {
-  items: string[];
+  items: { title: string; href: string }[];
+  selected: string;
 };
 
 type TabContentProps = {
@@ -14,36 +15,35 @@ type TabContentProps = {
   items: string[];
 };
 
-function Tabs({ children, items }: TabsProps) {
-  return (
-    <TabsComponent.Root defaultValue={items[0].toLowerCase()}>
-      {children}
-    </TabsComponent.Root>
-  );
+function Tabs({ children }: TabsProps) {
+  return <TabsComponent.Root>{children}</TabsComponent.Root>;
 }
 
-function TabItem({ items }: TabItemProps) {
+function TabItem({ items, selected }: TabItemProps) {
   return (
-    <TabsComponent.List>
+    <>
       {items.map((item) => (
-        <TabsComponent.Trigger key={item} value={item.toLowerCase()}>
-          <Text key={item} as="span" size="2">
-            {item}
-          </Text>
-        </TabsComponent.Trigger>
+        <TabsComponent.Link
+          asChild
+          key={item.title}
+          // href={item.href}
+          active={item.title.toLowerCase() === selected}
+        >
+          <Link href={item.href}>{item.title}</Link>
+        </TabsComponent.Link>
       ))}
-    </TabsComponent.List>
+    </>
   );
 }
 
 function TabContent({ children, items }: TabContentProps) {
   return (
     <>
-      {items.map((item) => (
-        <TabsComponent.Content key={item} value={item.toLowerCase()}>
-          {children}
-        </TabsComponent.Content>
-      ))}
+      {/* {items.map((item) => ( */}
+      {/* <TabsComponent.Content key={item} value={item.toLowerCase()}> */}
+      {children}
+      {/* </TabsComponent.Content> */}
+      {/* ))} */}
     </>
   );
 }

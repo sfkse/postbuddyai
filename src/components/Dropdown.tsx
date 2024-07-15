@@ -3,6 +3,7 @@ import { DropdownMenu, IconButton } from "@radix-ui/themes";
 type DropdownProps = {
   items: {
     label: string;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     color?: "red" | "indigo";
   }[];
   Icon: React.ReactNode;
@@ -19,7 +20,11 @@ function Dropdown({ items, Icon }: DropdownProps) {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         {items.map((item) => (
-          <DropdownMenu.Item key={item.label} color={item.color || "indigo"}>
+          <DropdownMenu.Item
+            key={item.label}
+            color={item.color || "indigo"}
+            onClick={item.onClick}
+          >
             {item.label}
           </DropdownMenu.Item>
         ))}
