@@ -1,10 +1,18 @@
 import PageHeading from "@/components/PageHeading";
 import CampaignsContent from "./Campaigns";
-import { getCampaignsWithTweets } from "@/utils/actions";
+import { getCampaignsWithTweets, getUser } from "@/utils/actions";
 import Breadcrumb from "@/components/Breadcrumb";
+import { CampaignsWithTweets } from "@/utils/types";
+import ConnectTwitter from "@/components/ConnectTwitter";
+import { User } from "@prisma/client";
 
 async function Campaigns() {
-  const campaigns = await getCampaignsWithTweets();
+  const user = (await getUser()) as User | null;
+
+  if (user && !user.isTwitterConnected) {
+    return <ConnectTwitter />;
+  }
+  const campaigns = (await getCampaignsWithTweets()) as CampaignsWithTweets[];
 
   return (
     <>

@@ -11,13 +11,32 @@ import {
   TextArea,
   Tooltip,
 } from "@radix-ui/themes";
-import { createTweet } from "@/utils/actions";
+import { createTweet, generateTweet } from "@/utils/actions";
+import { useState } from "react";
+import { ETweetStatus } from "@/utils/enums";
 
 type CreateTweetFieldsProps = {
   campaignId: string;
 };
 
 function CreateTweetFields({ campaignId }: CreateTweetFieldsProps) {
+  const [suggestedTweet, setSuggestedTweet] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const maxTweetLength = 280;
+
+  const suggestTweet = async () => {
+    setLoading(true);
+    const tweet = await generateTweet("React, Next.js, and Radix UI");
+    if (!tweet) {
+      setError("There is a problem with the API. Please try again later.");
+      setLoading(false);
+      return;
+    }
+    setSuggestedTweet(tweet as string);
+    setLoading(false);
+  };
+  console.log(suggestedTweet);
   return (
     <>
       <Text as="p" size="2" style={{ color: "var(--secondary-light)" }}>
@@ -37,15 +56,30 @@ function CreateTweetFields({ campaignId }: CreateTweetFieldsProps) {
               style={{ outline: "none", padding: "0.5rem" }}
               name="content"
               required
+              value={suggestedTweet}
+              onChange={(e) => {
+                setSuggestedTweet(e.currentTarget.value);
+              }}
+              maxLength={maxTweetLength}
             />
+            {error && (
+              <Text size="1" color="red">
+                There is a problem with the API. Please try again later.
+              </Text>
+            )}
             <Flex justify="between" align="center" gap="3" width="100%">
-              <IconButton radius="small" variant="soft">
+              <IconButton
+                radius="small"
+                variant="soft"
+                onClick={suggestTweet}
+                loading={loading}
+              >
                 <Tooltip content="Suggest with AI">
                   <MagicWandIcon />
                 </Tooltip>
               </IconButton>
               <Text size="1" style={{ color: "var(--secondary)" }}>
-                0/280
+                {`${suggestedTweet.length}/280`}
               </Text>
             </Flex>
           </Flex>
@@ -57,10 +91,20 @@ function CreateTweetFields({ campaignId }: CreateTweetFieldsProps) {
           <input type="hidden" name="campaignId" value={campaignId} />
         </Flex>
         <Flex justify="end" align="center" gap="3" width="100%" mt="7">
-          <Button variant="soft" size="2" name="saveDraft">
+          <Button
+            variant="soft"
+            size="2"
+            name="status"
+            value={ETweetStatus.DRAFT}
+          >
             <Pencil1Icon /> Save as draft
           </Button>
-          <Button variant="solid" size="2" name="save">
+          <Button
+            variant="solid"
+            size="2"
+            name="status"
+            value={ETweetStatus.ACTIVE}
+          >
             Save
           </Button>
         </Flex>

@@ -1,11 +1,18 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import TweetsList from "./TweetsList";
-import { getCampaignsWithTweets } from "@/utils/actions";
+import { getCampaignsWithTweets, getUser } from "@/utils/actions";
 import { CampaignsWithTweets } from "@/utils/types";
 import { capitalize } from "@/utils/string";
+import { User } from "@prisma/client";
+import ConnectTwitter from "@/components/ConnectTwitter";
 
 async function CampaignDetail({ params }: { params: { id: string } }) {
-  const campaigns: CampaignsWithTweets = await getCampaignsWithTweets();
+  const user = (await getUser()) as User | null;
+
+  if (user && !user.isTwitterConnected) {
+    return <ConnectTwitter />;
+  }
+  const campaigns = (await getCampaignsWithTweets()) as CampaignsWithTweets[];
 
   if (campaigns === undefined) {
     return <p>No campaigns found</p>;
@@ -28,7 +35,6 @@ async function CampaignDetail({ params }: { params: { id: string } }) {
         ]}
       />
       <TweetsList
-        tweets={tweets}
         campaignName={campaign.name}
         camapaignId={id}
         isAutoRenew={campaign.isAutoRenew}

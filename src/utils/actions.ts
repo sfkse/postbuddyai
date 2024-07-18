@@ -8,6 +8,7 @@ import { randomUUID } from "crypto";
 import { Campaign } from "@prisma/client";
 import { ECampaignStatus, ETweetStatus } from "./enums";
 import { z } from "zod";
+import OpenAI from "openai";
 
 // CAMPAIGN ACTIONS
 export const createCampaign = async (formData: any) => {
@@ -169,7 +170,7 @@ export const createTweet = async (formData: any) => {
         id: randomUUID(),
         campaignId,
         content,
-        status: 1,
+        status: parseInt(status),
         scheduledAt,
         userId,
       },
@@ -212,6 +213,29 @@ export const getActiveTweets = async () => {
   }
 };
 
+export const getCampaignTweets = async (campaignId: string) => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const tweets = await prisma.tweets.findMany({
+      where: {
+        userId,
+        campaignId,
+        status: ETweetStatus.ACTIVE,
+      },
+    });
+
+    return tweets;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
 export const getDrafts = async () => {
   const { userId } = auth();
 
@@ -241,9 +265,40 @@ export const getDrafts = async () => {
   }
 };
 
+export const generateTweet = async (topics: string) => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const client = new OpenAI({ apiKey: process.env.OPEN_AI_AI_API_KEY });
+    const completion = await client.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: `You are a twitter user. Generate a tweet about ${topics} with a personal tone. Use maximum 280 characters.`,
+        },
+      ],
+    });
+
+    return completion.choices[0].message.content;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
 // USER ACTIONS
 export const createUser = async (userData: any) => {
   const { id, username, email } = userData;
+
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   try {
     const response = await prisma.user.create({
@@ -255,6 +310,27 @@ export const createUser = async (userData: any) => {
     });
     console.log("User created", id);
     return response;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const getUser = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    return user;
   } catch (error) {
     console.error(error);
     return new NextResponse("Internal Server Error", { status: 500 });

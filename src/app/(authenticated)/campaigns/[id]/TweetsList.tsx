@@ -8,22 +8,32 @@ import SlideScreen from "@/components/SlideScreen";
 import CreateTweetFields from "./CreateTweetFields";
 import { Tweets } from "@prisma/client";
 import PageHeading from "@/components/PageHeading";
+import { useEffect, useState } from "react";
+import { getCampaignTweets } from "@/utils/actions";
 
 type TweetsListProps = {
   campaignName: string;
   camapaignId: string;
   isAutoRenew: boolean;
-  tweets: Tweets[];
 };
 
 function TweetsList({
-  tweets,
   campaignName,
   camapaignId,
   isAutoRenew,
 }: TweetsListProps) {
   const { isSlideScreenOpen, toggleSlideScreen } = useToggleSlideScreen();
+  const [tweets, setTweets] = useState<Tweets[]>([]);
 
+  useEffect(() => {
+    const fetchTweets = async () => {
+      const tweets = await getCampaignTweets(camapaignId);
+
+      setTweets(tweets as Tweets[]);
+    };
+
+    fetchTweets();
+  }, [camapaignId]);
   return (
     <>
       <Flex align="center" justify="between">
