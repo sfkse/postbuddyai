@@ -4,8 +4,9 @@ import { Open_Sans } from "next/font/google";
 import "@/styles/global.css";
 
 import { ClerkProvider, SignedIn } from "@clerk/nextjs";
-import Sidebar from "../components/Sidebar";
-import Appbar from "../components/Appbar";
+import Sidebar from "@/components/Sidebar";
+import Appbar from "@/components/Appbar";
+import TwitterConnectionProvider from "@/components/TwitterConnectionProvider";
 
 // const inter = Inter({ subsets: ["latin"] });
 const openSans = Open_Sans({
@@ -32,7 +33,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <SignedIn>
                   <Appbar />
                 </SignedIn>
-                <main style={{ padding: "2rem" }}>{children}</main>
+                <main style={{ padding: "2rem" }}>
+                  <TwitterConnectionProvider>
+                    {children}
+                  </TwitterConnectionProvider>
+                </main>
               </Box>
             </Flex>
           </Theme>

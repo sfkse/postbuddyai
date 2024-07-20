@@ -9,6 +9,7 @@ import { Campaign } from "@prisma/client";
 import { ECampaignStatus, ETweetStatus } from "./enums";
 import { z } from "zod";
 import OpenAI from "openai";
+import { createSignature } from "@/services/twitter";
 
 // CAMPAIGN ACTIONS
 export const createCampaign = async (formData: any) => {
@@ -273,7 +274,7 @@ export const generateTweet = async (topics: string) => {
   }
 
   try {
-    const client = new OpenAI({ apiKey: process.env.OPEN_AI_AI_API_KEY });
+    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const completion = await client.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -331,6 +332,61 @@ export const getUser = async () => {
     });
 
     return user;
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+// TWEETER AUTH ACTIONS
+export const getRequestToken = async () => {
+  const { X_API_ENDPOINT, X_CONSUMER_KEY, X_CALLBACK_URL, X_CONSUMER_SECRET } =
+    process.env;
+  // Generate random data, and stripping out all non-word characters like rISPJhphM5R
+  const oauthNonce = randomUUID().replace(/\W/g, "").slice(0, 11);
+  const requestTokenUrl = `${X_API_ENDPOINT}/oauth/request_token`;
+  const method = "POST";
+  // Oauth parameters
+  const oauthParams = {
+    oauth_consumer_key: X_CONSUMER_KEY,
+    oauth_nonce: oauthNonce,
+    oauth_signature_method: "HMAC-SHA1",
+    oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
+    oauth_version: "1.0",
+  };
+
+  const oauthSignature = createSignature(
+    method,
+    requestTokenUrl,
+    oauthParams,
+    X_CONSUMER_SECRET as string
+  );
+
+  Object.assign(oauthParams, { oauth_signature: oauthSignature });
+
+  // Construct the Authorization header
+  const authHeader = Object.keys(oauthParams)
+    .sort()
+    .map((key) => `${key}="${encodeURIComponent(oauthParams[key])}"`)
+    .join(", ");
+
+  try {
+    const response = await fetch(requestTokenUrl, {
+      method,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `OAuth ${authHeader}`,
+      },
+    });
+
+    if (!response.ok)
+      return new NextResponse("Request Token Error", { status: 400 });
+
+    const data = await response.text();
+
+    const oauthToken = data.split("&")[0].split("=")[1];
+
+    return oauthToken;
   } catch (error) {
     console.error(error);
     return new NextResponse("Internal Server Error", { status: 500 });

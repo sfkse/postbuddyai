@@ -1,7 +1,15 @@
+"use client";
+
+import { getRequestToken } from "@/utils/actions";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 
 function ConnectTwitter() {
+  const connectTwitter = async () => {
+    const token = await getRequestToken();
+    window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${token}`;
+  };
+
   return (
     <Flex
       direction="column"
@@ -16,10 +24,12 @@ function ConnectTwitter() {
       <Text size="2" style={{ color: "var(--secondary-light)" }}>
         To use this application, you need to connect your Twitter account.
       </Text>
-      <Button variant="solid" size="2">
-        <TwitterLogoIcon />
-        Connect
-      </Button>
+      <form action={connectTwitter}>
+        <Button variant="solid" size="2">
+          <TwitterLogoIcon />
+          Connect
+        </Button>
+      </form>
     </Flex>
   );
 }
