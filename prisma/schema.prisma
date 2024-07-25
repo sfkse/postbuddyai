@@ -14,16 +14,18 @@ datasource db {
 }
 
 model User {
-  id                 String     @id
-  active             Boolean    @default(true)
-  username           String
-  email              String     @unique
-  userRole           Int        @default(0)
-  isTwitterConnected Boolean    @default(false)
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-  campaign           Campaign[]
-  tweets             Tweets[]
+  id                       String     @id
+  active                   Boolean    @default(true)
+  username                 String
+  email                    String     @unique
+  userRole                 Int        @default(0)
+  isTwitterConnected       Boolean    @default(false)
+  createdAt                DateTime   @default(now())
+  updatedAt                DateTime   @updatedAt
+  twitterAccessToken       String
+  twitterAccessTokenSecret String
+  campaign                 Campaign[]
+  tweets                   Tweets[]
 }
 
 model Campaign {

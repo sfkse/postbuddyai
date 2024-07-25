@@ -10,7 +10,18 @@ import { ECampaignStatus, ETweetStatus } from "./enums";
 import { z } from "zod";
 import OpenAI from "openai";
 import { createSignature } from "@/services/twitter";
+import { cookies } from "next/headers";
 
+//TYPES
+type OAuthParams = {
+  oauth_consumer_key: string;
+  oauth_nonce: string;
+  oauth_signature_method: string;
+  oauth_timestamp: string;
+  oauth_version: string;
+  oauth_token?: string;
+  oauth_verifier?: string;
+};
 // CAMPAIGN ACTIONS
 export const createCampaign = async (formData: any) => {
   const { userId } = auth();
@@ -295,21 +306,20 @@ export const generateTweet = async (topics: string) => {
 export const createUser = async (userData: any) => {
   const { id, username, email } = userData;
 
-  const { userId } = auth();
-
-  if (!userId) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
-
   try {
     const response = await prisma.user.create({
       data: {
         id,
         email,
         username,
+        twitterAccessToken: "",
+        twitterAccessTokenSecret: "",
       },
     });
-    console.log("User created", id);
+
+    // Add user id to cookies
+    cookies().set("userId", id);
+
     return response;
   } catch (error) {
     console.error(error);
@@ -321,7 +331,7 @@ export const getUser = async () => {
   const { userId } = auth();
 
   if (!userId) {
-    return new NextResponse("Unauthorized", { status: 401 });
+    return null;
   }
 
   try {
@@ -340,19 +350,20 @@ export const getUser = async () => {
 
 // TWEETER AUTH ACTIONS
 export const getRequestToken = async () => {
-  const { X_API_ENDPOINT, X_CONSUMER_KEY, X_CALLBACK_URL, X_CONSUMER_SECRET } =
-    process.env;
+  const { X_API_ENDPOINT, X_CONSUMER_KEY, X_CONSUMER_SECRET } = process.env;
   // Generate random data, and stripping out all non-word characters like rISPJhphM5R
   const oauthNonce = randomUUID().replace(/\W/g, "").slice(0, 11);
   const requestTokenUrl = `${X_API_ENDPOINT}/oauth/request_token`;
   const method = "POST";
   // Oauth parameters
   const oauthParams = {
-    oauth_consumer_key: X_CONSUMER_KEY,
+    oauth_consumer_key: X_CONSUMER_KEY as string,
     oauth_nonce: oauthNonce,
     oauth_signature_method: "HMAC-SHA1",
     oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
     oauth_version: "1.0",
+    oauth_token: "",
+    oauth_verifier: "",
   };
 
   const oauthSignature = createSignature(
@@ -362,12 +373,17 @@ export const getRequestToken = async () => {
     X_CONSUMER_SECRET as string
   );
 
-  Object.assign(oauthParams, { oauth_signature: oauthSignature });
+  Object.assign(oauthParams as OAuthParams, {
+    oauth_signature: oauthSignature,
+  });
 
   // Construct the Authorization header
   const authHeader = Object.keys(oauthParams)
     .sort()
-    .map((key) => `${key}="${encodeURIComponent(oauthParams[key])}"`)
+    .map(
+      (key) =>
+        `${key}="${encodeURIComponent(oauthParams[key as keyof OAuthParams])}"`
+    )
     .join(", ");
 
   try {
@@ -383,13 +399,99 @@ export const getRequestToken = async () => {
       return new NextResponse("Request Token Error", { status: 400 });
 
     const data = await response.text();
-
     const oauthToken = data.split("&")[0].split("=")[1];
-
+    //
     return oauthToken;
   } catch (error) {
     console.error(error);
     return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const getAccessToken = async (
+  oauthToken: string,
+  oauthVerifier: string
+) => {
+  const { X_API_ENDPOINT, X_CONSUMER_KEY, X_CONSUMER_SECRET } = process.env;
+  const accessTokenUrl = `${X_API_ENDPOINT}/oauth/access_token`;
+  const method = "POST";
+  const oauthParams = {
+    oauth_consumer_key: X_CONSUMER_KEY as string,
+    oauth_nonce: randomUUID().replace(/\W/g, "").slice(0, 11),
+    oauth_signature_method: "HMAC-SHA1",
+    oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
+    oauth_token: oauthToken,
+    oauth_verifier: oauthVerifier,
+    oauth_version: "1.0",
+  };
+
+  const oauthSignature = createSignature(
+    method,
+    accessTokenUrl,
+    oauthParams,
+    X_CONSUMER_SECRET as string
+  );
+
+  Object.assign(oauthParams, { oauth_signature: oauthSignature });
+
+  const authHeader = Object.keys(oauthParams)
+    .sort()
+    .map(
+      (key) =>
+        `${key}="${encodeURIComponent(oauthParams[key as keyof OAuthParams])}"`
+    )
+    .join(", ");
+
+  try {
+    const response = await fetch(accessTokenUrl, {
+      method,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `OAuth ${authHeader}`,
+      },
+    });
+
+    if (!response.ok)
+      return new NextResponse("Access Token Error", { status: 400 });
+
+    const data = await response.text();
+    const accessToken = new URLSearchParams(data).get("oauth_token");
+    const accessTokenSecret = new URLSearchParams(data).get(
+      "oauth_token_secret"
+    );
+
+    return { accessToken, accessTokenSecret };
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const saveAccessToken = async (accessToken: any) => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    //Save token in the database
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        twitterAccessToken: accessToken.accessToken,
+        twitterAccessTokenSecret: accessToken.accessTokenSecret,
+        isTwitterConnected: true,
+      },
+    });
+
+    // revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: "Internal Server Error" };
   }
 };
 

@@ -1,18 +1,40 @@
+"use client";
 import { getUser } from "@/utils/actions";
 import { User } from "@prisma/client";
-import React from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import ConnectTwitter from "./ConnectTwitter";
-import { auth } from "@clerk/nextjs/server";
 
-async function TwitterConnectionProvider({
-  children,
-}: {
+type TwitterConnectionProviderProps = {
   children: React.ReactNode;
-}) {
-  const { userId } = await auth();
-  const user = (await getUser()) as User | null;
+};
 
-  if (userId && user && !user.isTwitterConnected) {
+function TwitterConnectionProvider({
+  children,
+}: TwitterConnectionProviderProps) {
+  const [user, setUser] = useState<User>();
+  const router = usePathname();
+  const isCallbackPage = router === "/callback";
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await getUser();
+      // const user = response.data;
+      setUser(response as User);
+    };
+    fetchUser();
+  }, [router]);
+
+  console.log(
+    "user",
+    user,
+    "isTwitterConnected",
+    user?.isTwitterConnected,
+    "isCallbackPage",
+    isCallbackPage
+  );
+  // console.log("oauth_token", oauth_token, "oauth_verifier", oauth_verifier);
+  if (user && !user.isTwitterConnected && !isCallbackPage) {
     return <ConnectTwitter />;
   }
   return <>{children}</>;

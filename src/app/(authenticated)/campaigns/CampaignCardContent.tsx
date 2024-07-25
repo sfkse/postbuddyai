@@ -12,7 +12,7 @@ type CampaignCardContentProps = {
     tweets: {
       status: number;
       length: number;
-    };
+    }[];
     createdAt: string;
   } & CampaignsWithTweets;
 };
